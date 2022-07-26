@@ -10,4 +10,4 @@ Made using [p5.js](https://p5js.org/)
 * the config.js can be modified to 
     * change the size of the canvas
     * change the number of cells in width/height (the board is always a square)
-    * change the color used by dead and alive cells (either a number between 0 and 255 / black to white or a p5js color `color(r, g, b)`)
+    * change the color used by dead and alive cells (number between 0 and 255 -> black to white)

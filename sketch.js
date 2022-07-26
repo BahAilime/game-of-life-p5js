@@ -12,15 +12,15 @@ class Cell {
     this.offsetX = offsetX
     this.offsetY = offsetY
 
-    this.x = offsetX/cellSize
-    this.y = offsetY/cellSize
+    this.x = Math.round(offsetX/cellSize)
+    this.y = Math.round(offsetY/cellSize)
 
     this.color = colorDead
 
     this.index = this.y * nbOfCellPerLine + this.x +1
   
     this.nextGenState = "unknown"
-
+    this.aliveList = []
   }
 
   show () {
@@ -50,7 +50,8 @@ class Cell {
   evaluate () {
 
     if (this.x>0 && this.x<nbOfCellPerLine-1 && this.y>0 && this.y<nbOfCellPerLine-1) {
-      let aliveList = [
+      try {
+        this.aliveList = [
         grid[this.y-1][this.x-1].isAlive,
         grid[this.y-1][this.x].isAlive,
         grid[this.y-1][this.x+1].isAlive,
@@ -62,8 +63,11 @@ class Cell {
         grid[this.y+1][this.x].isAlive,
         grid[this.y+1][this.x+1].isAlive,
       ]
+    } catch (e) {
+      console.log(this.coo)
+    }
 
-      let aliveNeighbours = aliveList.filter((x) => x === true).length
+      let aliveNeighbours = this.aliveList.filter((x) => x === true).length
 
       if (this.isAlive && (aliveNeighbours < 2 || aliveNeighbours > 3)) {
         this.nextGenState = colorDead
@@ -148,7 +152,7 @@ function mouseClicked() {
   let y = Math.floor(mouseY/cellSize)
 
   if (!justDragged && x>=0 && x<nbOfCellPerLine && y>=0 && y<nbOfCellPerLine) {
-    console.log(`Clicked: ${x},${y}`)
+    // console.log(`Clicked: ${x},${y}`)
     grid[y][x].colorSwitch()
   }
 }
@@ -158,7 +162,7 @@ function mouseDragged() {
   let y = Math.floor(mouseY/cellSize)
 
   if (x>=0 && x<nbOfCellPerLine && y>=0 && y<nbOfCellPerLine) {
-    console.log([x, y, nbOfCellPerLine]);
+    // console.log([x, y, nbOfCellPerLine])
     grid[y][x].color = colorAlive
     grid[y][x].nextGenState = colorAlive
   }
